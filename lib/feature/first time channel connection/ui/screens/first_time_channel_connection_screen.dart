@@ -41,42 +41,57 @@ class _FirstTimeChannelConnectionScreenState
           SizedBox(width: 16),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'পরবর্তী ধাপে যেতে, অনুগ্রহ করে কমপক্ষে ৫টি চ্যানেলের সাথে সংযোগ স্থাপন করুন।',
-                style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontSize: 15,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'পরবর্তী ধাপে যেতে, অনুগ্রহ করে কমপক্ষে ৫টি চ্যানেলের সাথে সংযোগ স্থাপন করুন।',
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontSize: 15,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 8),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: CircleAvatar(),
-                  title: Text('Channel $index'),
-                  subtitle: Text('Channel description'),
-                  trailing: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
-                      elevation: 0
+              SizedBox(height: 8),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: CircleAvatar(),
+                    title: Text('Channel ${index+1}'),
+                    subtitle: Text('Channel description'),
+                    trailing: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent, elevation: 0),
+                      child: Text(
+                        'Connect',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                    child: Text('Connect',style: TextStyle(color: Colors.white),),
-                  ),
-                );
-              },
-            ),
-          ],
+                  );
+                },
+              ),
+              SizedBox(height: 16),
+              GestureDetector(
+                onTap: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('See more channel'),
+                    Icon(Icons.arrow_drop_down),
+                  ],
+                ),
+              ),
+              SizedBox(height: 50)
+            ],
+          ),
         ),
       ),
     );
