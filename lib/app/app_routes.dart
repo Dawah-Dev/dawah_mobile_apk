@@ -1,3 +1,4 @@
+import 'package:dawah_mobile_application/feature/first%20time%20channel%20connection/ui/screens/first_time_channel_connection_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dawah_mobile_application/feature/splash%20and%20data%20progress/ui/screens/splash_screen.dart';
 
@@ -7,9 +8,9 @@ class AppRoutes {
     if (settings.name == SplashScreen.name) {
       route = SplashScreen();
     }
-    // else if (settings.name == MainScreenBottomNav.name) {
-    //   route = MainScreenBottomNav();
-    // }
+    else if (settings.name == FirstTimeChannelConnectionScreen.name) {
+      route = FirstTimeChannelConnectionScreen();
+    }
     return MaterialPageRoute(
       builder: (context) {
         return route;
