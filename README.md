@@ -1,16 +1,4 @@
-# dawah_mobile_application
-
-Open Source islamic video streaming application
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Dawah - Open Source Islamic Video Platform
+Dawah is an open-source Islamic video platform built with Flutter. It uses YouTube metadata to fetch and display specific videos and channel information. With a collection of over 50K videos from 100+ Islamic channels, the app allows users to explore, search, and filter content easily. To enhance performance, Dawah processes queries directly on the device using SQLite for local storage.  
+<bn>
+This application is highly secure as it operates without a backend server, ensuring user privacy and data safety. However, Dawah is not an offline platform—it fetches real-time updates from YouTube while maintaining efficient on-device processing for a smooth user experience.
