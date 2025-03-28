@@ -20,6 +20,7 @@ void main() async {
     print(video.thumbnails.mediumResUrl);
     print('==========================\n\n');
     print('==========================\n\n');
+    print('==========================\n\n');
   }
 
   yt.close();

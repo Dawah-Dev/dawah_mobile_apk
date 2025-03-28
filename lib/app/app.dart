@@ -10,6 +10,7 @@ class DawahApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
+        colorSchemeSeed: Colors.blueAccent,
         appBarTheme: AppBarTheme(backgroundColor: Colors.white)
       ),
       initialRoute: '/',
