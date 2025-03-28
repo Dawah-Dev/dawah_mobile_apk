@@ -19,6 +19,7 @@ void main() async {
     print(video.uploadDate);
     print(video.thumbnails.mediumResUrl);
     print('==========================\n\n');
+    print('==========================\n\n');
   }
 
   yt.close();
