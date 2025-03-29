@@ -1,3 +1,4 @@
+import 'package:dawah_mobile_application/feature/common/ui/screens/main_bottom_navigation_screen.dart';
 import 'package:dawah_mobile_application/feature/common/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,13 @@ class _FirstTimeChannelConnectionScreenState
         ),
         actions: [
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                MainBottomNavigationScreen.name,
+                    (route) => false,
+              );
+            },
             style: OutlinedButton.styleFrom(
               fixedSize: Size(104, 35),
               foregroundColor: Colors.blueAccent,
@@ -49,10 +56,10 @@ class _FirstTimeChannelConnectionScreenState
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'পরবর্তী ধাপে যেতে, অনুগ্রহ করে কমপক্ষে ৫টি চ্যানেলের সাথে সংযোগ স্থাপন করুন।',
+                  'পরবর্তী ধাপে যেতে, অনুগ্রহ করে কমপক্ষে ৫টি চ্যানেল সাবস্ক্রাইব করুন।',
                   style: TextStyle(
                     color: Colors.blueGrey,
-                    fontSize: 15,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -64,14 +71,14 @@ class _FirstTimeChannelConnectionScreenState
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: CircleAvatar(),
-                    title: Text('Channel ${index+1}'),
+                    title: Text('Channel ${index + 1}'),
                     subtitle: Text('Channel description'),
                     trailing: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent, elevation: 0),
                       child: Text(
-                        'Connect',
+                        'Subscribe',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
