@@ -11,6 +11,11 @@ class DawahApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         colorSchemeSeed: Colors.blueAccent,
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.blueAccent,
+          unselectedItemColor: Colors.blueGrey
+        ),
         appBarTheme: AppBarTheme(backgroundColor: Colors.white)
       ),
       initialRoute: '/',
