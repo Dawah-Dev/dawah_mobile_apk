@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           Divider(
-            color: Colors.blueGrey.shade100,
+            color: Colors.blueGrey.shade50,
             height: 0.5,
           ),
           Expanded(
@@ -73,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           CircleAvatar(
                             radius: 20,
+                            backgroundImage: NetworkImage('https://yt3.ggpht.com/ytc/AIdro_lbVZ9wgnA-LZ4HoESZeMUTU-IqvnlRGaaLWtRyaLCm4Ns=s48-c-k-c0x00ffffff-no-rj'),
                           ),
                           SizedBox(width: 8),
                           Expanded(

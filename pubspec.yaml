@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.0.17
   youtube_explode_dart: ^2.3.10
+  video_player: ^2.9.5
+  pod_player: ^0.2.2
 
 dev_dependencies:
   flutter_test:
