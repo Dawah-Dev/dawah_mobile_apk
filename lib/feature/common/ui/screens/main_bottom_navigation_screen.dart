@@ -2,6 +2,7 @@ import 'package:dawah_mobile_application/feature/home/ui/screens/home_screen.dar
 import 'package:dawah_mobile_application/feature/search/ui/screens/search_screen.dart';
 import 'package:dawah_mobile_application/third_party_library/mini_player/miniplayer.dart';
 import 'package:dawah_mobile_application/third_party_library/mini_player/src/utils.dart' show percentageFromValueInRange;
+import 'package:dawah_mobile_application/video_play_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -18,11 +19,10 @@ class MainBottomNavigationScreen extends StatefulWidget {
 class _MainBottomNavigationScreenState
     extends State<MainBottomNavigationScreen> {
   int _currentIndex = 0;
-  double playerMinHeight = 80;
+  double playerMinHeight = 60;
   double playerMaxHeight = 370;
-  double miniplayerPercentageDeclaration = 0.2;
 
-  final ValueNotifier<double> playerExpandProgress = ValueNotifier<double>(80);
+  final ValueNotifier<double> playerExpandProgress = ValueNotifier<double>(60);
 
 
   final List<Widget> _screens = [
@@ -36,6 +36,9 @@ class _MainBottomNavigationScreenState
   Widget build(BuildContext context) {
 
     playerMaxHeight = MediaQuery.of(context).copyWith().size.height-20;
+    playerExpandProgress.value = playerMaxHeight;
+
+
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0,forceMaterialTransparency: true,),
       body: SafeArea(
@@ -43,13 +46,14 @@ class _MainBottomNavigationScreenState
           children: [
             _screens[_currentIndex],
             Miniplayer(
-              minHeight: 80,
+              minHeight: 60,
               maxHeight: playerMaxHeight,
               valueNotifier: playerExpandProgress,
               builder: (height, percentage) {
-                return Center(
-                  child: Text('$height, $percentage'),
-                );
+                return VideoPlayScreen(height: height,);
+                //   Center(
+                //   child: Text('$height, $percentage'),
+                // );
               },
             ),
           ],
