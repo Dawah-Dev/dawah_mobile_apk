@@ -38,6 +38,7 @@ dependencies:
   youtube_explode_dart: ^2.3.10
   video_player: ^2.9.5
   pod_player: ^0.2.2
+  youtube_player_flutter: ^9.1.1
 
 dev_dependencies:
   flutter_test:
