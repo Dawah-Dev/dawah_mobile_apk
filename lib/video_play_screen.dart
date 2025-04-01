@@ -18,6 +18,23 @@ class VideoPlayScreen extends StatefulWidget {
 class _VideoPlayScreenState extends State<VideoPlayScreen> {
   late double displayWidth;
 
+  late YoutubePlayerController _youtubePlayerController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _youtubePlayerController = YoutubePlayerController(
+      initialVideoId: '7iqKTb6_K2g',
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        hideControls: true,
+        loop: true,
+        mute: false,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     displayWidth = MediaQuery.of(context).size.width;
@@ -41,108 +58,17 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                       : widget.height - 4,
                   width: widget.height > 61
                       ? displayWidth
-                      : (widget.height * (16 / 9)),
-                  child: Stack(
-                    children: [
-                      YoutubePlayer(
-                        aspectRatio: 16 / 9,
-                        controller: YoutubePlayerController(
-                          initialVideoId: 'TZUnW8OzvnM',
-                          flags: YoutubePlayerFlags(
-                            autoPlay: true,
-                            hideControls: true,
-                            mute: false,
-                          ),
-                        ),
-                        showVideoProgressIndicator: true,
-                        progressIndicatorColor: Colors.blueAccent,
-                        progressColors: const ProgressBarColors(
-                          playedColor: Colors.blueAccent,
-                          handleColor: Colors.blueAccent,
-                        ),
-                      ),
-                      if (widget.height > 400)
-                        IconButton(
-                          onPressed: () {
-                            widget.miniplayerController
-                                .animateToHeight(state: PanelState.MIN);
-                          },
-                          icon: Icon(
-                            Icons.arrow_drop_down_circle_outlined,
-                            color: Colors.white.withOpacity(0.5),
-                            size: 30,
-                          ),
-                        ),
-
-                      if (widget.height > 400)
-                        Center(
-                          child: IconButton(
-                            onPressed: () {
-                              widget.miniplayerController
-                                  .animateToHeight(state: PanelState.MIN);
-                            },
-                            icon: CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.blueAccent,
-                              child: Icon(Icons.play_arrow,color: Colors.white,size: 35,),
-                            ),
-                          ),
-                        ),
-                    ],
+                      : (widget.height * (16 / 9)) - 6,
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: buildYoutubePlayerandControllerButton(),
                   ),
                 ),
               ),
-              if (widget.height < 61)
-                Expanded(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(width: 4),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Emotional Nasheed | হে আমার মা! | COVER BY AHMAD FAIYAAZ',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Text(
-                                  'Ummah Network',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.play_arrow),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.close),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
+              if (widget.height < 61) buildInfoAndButtonForMiniSize()
             ],
           ),
-          if (widget.height < 61)
-            LinearProgressIndicator(
-              value: 0.3,
-              minHeight: 3.2,
-              color: Colors.blueAccent,
-            ),
+          if (widget.height < 61) buildVideoIndicatorForMiniLayout(),
           if (widget.height > displayWidth * (9 / 16))
             Expanded(
               child: GestureDetector(
@@ -156,189 +82,21 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 12),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 14),
-                              child: Text(
-                                'Emotional Nasheed | হে আমার মা! | COVER BY AHMAD FAIYAAZ',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                        buildVideoInfoAndActionButtonAndSubscribeSection(),
+                        SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 4),
+                          child: Text(
+                            'Recommend',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w500,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 14),
-                              child: Text(
-                                'Emotional Nasheed | হে আমার মা! ',
-                                maxLines: 1,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            SizedBox(
-                              height: 36,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                children: [
-                                  SaveShareDownloadButton(
-                                    title: 'Save',
-                                    icon: CupertinoIcons.bookmark_solid,
-                                  ),
-                                  SaveShareDownloadButton(
-                                    title: 'Share',
-                                    icon: CupertinoIcons.share,
-                                  ),
-                                  SaveShareDownloadButton(
-                                    title: 'Audio download',
-                                    icon: Icons.multitrack_audio_sharp,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Divider(
-                              color: Colors.blueGrey.shade50.withOpacity(0.5),
-                              height: 4,
-                            ),
-                            ListTile(
-                              leading: CircleAvatar(),
-                              title: Text('Ummah Network'),
-                              trailing: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blueAccent,
-                                  elevation: 0,
-                                ),
-                                child: Text(
-                                  'Subscribe',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.blueGrey.shade50.withOpacity(0.5),
-                              height: 4,
-                            ),
-                            SizedBox(height: 8),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 4),
-                              child: Text(
-                                'Recommend',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: 10,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {},
-                              child: Column(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(6),
-                                    child: Stack(
-                                      children: [
-                                        AspectRatio(
-                                          aspectRatio: 16 / 9,
-                                          child: Image.network(
-                                            'https://i.ytimg.com/vi/Eysh8W9Veow/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLD2xID4HvycaI2tRoYiCHfUrzJfkQ',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: 8,
-                                          right: 8,
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 4, horizontal: 8),
-                                            decoration: BoxDecoration(
-                                                color: Colors.black
-                                                    .withOpacity(0.4),
-                                                borderRadius:
-                                                    BorderRadius.circular(4)),
-                                            child: Text(
-                                              '1:50',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 12),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 20,
-                                        backgroundImage: NetworkImage(
-                                            'https://yt3.ggpht.com/ytc/AIdro_lbVZ9wgnA-LZ4HoESZeMUTU-IqvnlRGaaLWtRyaLCm4Ns=s48-c-k-c0x00ffffff-no-rj'),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'শামের বিজয়ে মুমিনদের আনন্দ ও শিক্ষা | Shaikh Tamim Al Adnani',
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 1.2),
-                                            ),
-                                            SizedBox(height: 2),
-                                            Text(
-                                              'Ummah network • 24 Mar 2025',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 16),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
+                        buildRecommendVideoListView(),
                       ],
                     ),
                   ),
@@ -347,6 +105,336 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
             )
         ],
       ),
+    );
+  }
+
+  Column buildVideoInfoAndActionButtonAndSubscribeSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 12),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Text(
+            'তাকওয়া অবলম্বনের গুরুত্ব ও ফজিলত | Shaikh Tamim Al Adnani',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Text(
+            'Emotional Nasheed | হে আমার মা! ',
+            maxLines: 1,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 12,
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        SizedBox(
+          height: 36,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            children: [
+              SaveShareDownloadButton(
+                title: 'Save',
+                icon: CupertinoIcons.bookmark_solid,
+              ),
+              SaveShareDownloadButton(
+                title: 'Share',
+                icon: Icons.share,
+              ),
+              SaveShareDownloadButton(
+                title: 'Audio download',
+                icon: Icons.multitrack_audio_sharp,
+              ),
+              SaveShareDownloadButton(
+                title: "Don't Interested",
+                icon: Icons.videocam_off,
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 10),
+        Divider(
+          color: Colors.blueGrey.shade50.withOpacity(0.5),
+          height: 4,
+        ),
+        ListTile(
+          leading: CircleAvatar(),
+          title: Text('Ummah Network'),
+          trailing: ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              elevation: 0,
+            ),
+            child: Text(
+              'Subscribe',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        Divider(
+          color: Colors.blueGrey.shade50.withOpacity(0.5),
+          height: 4,
+        ),
+      ],
+    );
+  }
+
+  ListView buildRecommendVideoListView() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: 10,
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {},
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Stack(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Image.network(
+                        'https://i.ytimg.com/vi/Eysh8W9Veow/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLD2xID4HvycaI2tRoYiCHfUrzJfkQ',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Text(
+                          '1:50',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 12),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(
+                        'https://yt3.ggpht.com/ytc/AIdro_lbVZ9wgnA-LZ4HoESZeMUTU-IqvnlRGaaLWtRyaLCm4Ns=s48-c-k-c0x00ffffff-no-rj'),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'শামের বিজয়ে মুমিনদের আনন্দ ও শিক্ষা | Shaikh Tamim Al Adnani',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              height: 1.2),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          'Ummah network • 24 Mar 2025',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  LinearProgressIndicator buildVideoIndicatorForMiniLayout() {
+    return LinearProgressIndicator(
+      value: 0.3,
+      minHeight: 4,
+      color: Colors.blueAccent,
+    );
+  }
+
+  Expanded buildInfoAndButtonForMiniSize() {
+    return Expanded(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'তাকওয়া অবলম্বনের গুরুত্ব ও ফজিলত | Shaikh Tamim Al Adnani',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Text(
+                      'Ummah Network',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.play_arrow),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.close),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Stack buildYoutubePlayerandControllerButton() {
+    return Stack(
+      children: [
+        YoutubePlayer(
+          controller: _youtubePlayerController,
+          showVideoProgressIndicator: true,
+          progressIndicatorColor: Colors.blueAccent,
+          progressColors: const ProgressBarColors(
+            playedColor: Colors.blueAccent,
+            handleColor: Colors.blueAccent,
+          ),
+        ),
+        if (widget.height > 400)
+          IconButton(
+            onPressed: () {
+              widget.miniplayerController
+                  .animateToHeight(state: PanelState.MIN);
+            },
+            icon: Icon(
+              Icons.arrow_drop_down_circle_rounded,
+              color: Colors.white.withOpacity(0.5),
+              size: 30,
+            ),
+          ),
+        if (widget.height > 400)
+          Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.replay_10,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                SizedBox(width: 24),
+                IconButton(
+                  onPressed: () {
+                    widget.miniplayerController
+                        .animateToHeight(state: PanelState.MIN);
+                  },
+                  icon: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.black.withOpacity(0.4),
+                    child: Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 24),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.forward_10,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+        if (widget.height > 400)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: SizedBox(
+                height: 40,
+                child: Row(
+                  children: [
+                    SizedBox(width: 12),
+                    Text('1:40/22:30',style: TextStyle(color: Colors.white,fontSize: 12),),
+                    SizedBox(width: 8),
+                    Expanded(child: CustomVideoSlider(
+                      currentValue: 50,
+                      onChanged: (value) {
+                    },
+                    maxValue: 100,
+                    ),),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.fullscreen,color: Colors.white,)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+        if (widget.height > 400)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: LinearProgressIndicator(
+              value: 0.3,
+              minHeight: 3.2,
+              color: Colors.blueAccent,
+            ),
+          ),
+      ],
     );
   }
 }
@@ -379,14 +467,14 @@ class SaveShareDownloadButton extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: Colors.blueGrey,
+              color: Colors.blueGrey.shade800,
               size: 16,
             ),
             SizedBox(width: 4),
             Text(
               title,
               style: TextStyle(
-                color: Colors.blueGrey,
+                color: Colors.blueGrey.shade800,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -396,3 +484,40 @@ class SaveShareDownloadButton extends StatelessWidget {
     );
   }
 }
+
+class CustomVideoSlider extends StatelessWidget {
+  final double currentValue;
+  final double maxValue;
+  final ValueChanged<double> onChanged;
+  final Color? thumbColor;
+
+
+  const CustomVideoSlider({
+    Key? key,
+    required this.currentValue,
+    required this.maxValue,
+    required this.onChanged,
+    this.thumbColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        trackHeight: 2.0, // Minimal track height
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 4.0), // Small thumb
+        overlayShape: SliderComponentShape.noOverlay, // No overlay for a clean look
+        activeTrackColor: Colors.blueAccent,
+        inactiveTrackColor: Colors.grey.withOpacity(0.5),
+        thumbColor: thumbColor ?? Colors.white,
+      ),
+      child: Slider(
+        value: currentValue,
+        min: 0,
+        max: maxValue,
+        onChanged: onChanged,
+      ),
+    );
+  }
+}
+
