@@ -22,6 +22,7 @@ class _MainBottomNavigationScreenState
   double playerMinHeight = 60;
   double playerMaxHeight = 370;
 
+  final MiniplayerController _miniplayerController = MiniplayerController();
   final ValueNotifier<double> playerExpandProgress = ValueNotifier<double>(60);
 
 
@@ -36,8 +37,6 @@ class _MainBottomNavigationScreenState
   Widget build(BuildContext context) {
 
     playerMaxHeight = MediaQuery.of(context).copyWith().size.height-20;
-    playerExpandProgress.value = playerMaxHeight;
-
 
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0,forceMaterialTransparency: true,),
@@ -47,10 +46,13 @@ class _MainBottomNavigationScreenState
             _screens[_currentIndex],
             Miniplayer(
               minHeight: 60,
+              controller: _miniplayerController,
               maxHeight: playerMaxHeight,
               valueNotifier: playerExpandProgress,
               builder: (height, percentage) {
-                return VideoPlayScreen(height: height,);
+                return VideoPlayScreen(height: height,
+                  miniplayerController: _miniplayerController,
+                );
                 //   Center(
                 //   child: Text('$height, $percentage'),
                 // );
