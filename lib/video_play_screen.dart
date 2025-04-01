@@ -1,4 +1,5 @@
 import 'package:dawah_mobile_application/third_party_library/mini_player/miniplayer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -43,36 +44,50 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                       : (widget.height * (16 / 9)),
                   child: Stack(
                     children: [
-                      AspectRatio(
+                      YoutubePlayer(
                         aspectRatio: 16 / 9,
-                        child: YoutubePlayer(
-                          controller: YoutubePlayerController(
-                            initialVideoId: 'TZUnW8OzvnM',
-                            flags: YoutubePlayerFlags(
-                              autoPlay: true,
-                              hideControls: true,
-                              mute: false,
-                            ),
+                        controller: YoutubePlayerController(
+                          initialVideoId: 'TZUnW8OzvnM',
+                          flags: YoutubePlayerFlags(
+                            autoPlay: true,
+                            hideControls: true,
+                            mute: false,
                           ),
-                          showVideoProgressIndicator: true,
-                          progressIndicatorColor: Colors.blueAccent,
-                          progressColors: const ProgressBarColors(
-                            playedColor: Colors.blueAccent,
-                            handleColor: Colors.blueAccent,
-                          ),
+                        ),
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Colors.blueAccent,
+                        progressColors: const ProgressBarColors(
+                          playedColor: Colors.blueAccent,
+                          handleColor: Colors.blueAccent,
                         ),
                       ),
                       if (widget.height > 400)
                         IconButton(
+                          onPressed: () {
+                            widget.miniplayerController
+                                .animateToHeight(state: PanelState.MIN);
+                          },
+                          icon: Icon(
+                            Icons.arrow_drop_down_circle_outlined,
+                            color: Colors.white.withOpacity(0.5),
+                            size: 30,
+                          ),
+                        ),
+
+                      if (widget.height > 400)
+                        Center(
+                          child: IconButton(
                             onPressed: () {
                               widget.miniplayerController
                                   .animateToHeight(state: PanelState.MIN);
                             },
-                            icon: Icon(
-                              Icons.arrow_drop_down_circle_outlined,
-                              color: Colors.white.withOpacity(0.5),
-                              size: 30,
-                            ))
+                            icon: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.blueAccent,
+                              child: Icon(Icons.play_arrow,color: Colors.white,size: 35,),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -171,8 +186,30 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                               ),
                             ),
                             SizedBox(height: 8),
+                            SizedBox(
+                              height: 36,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                children: [
+                                  SaveShareDownloadButton(
+                                    title: 'Save',
+                                    icon: CupertinoIcons.bookmark_solid,
+                                  ),
+                                  SaveShareDownloadButton(
+                                    title: 'Share',
+                                    icon: CupertinoIcons.share,
+                                  ),
+                                  SaveShareDownloadButton(
+                                    title: 'Audio download',
+                                    icon: Icons.multitrack_audio_sharp,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10),
                             Divider(
-                              color: Colors.blueGrey.shade50,
+                              color: Colors.blueGrey.shade50.withOpacity(0.5),
                               height: 4,
                             ),
                             ListTile(
@@ -193,7 +230,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                               ),
                             ),
                             Divider(
-                              color: Colors.blueGrey.shade50,
+                              color: Colors.blueGrey.shade50.withOpacity(0.5),
                               height: 4,
                             ),
                             SizedBox(height: 8),
@@ -215,8 +252,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: 10,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {},
@@ -309,6 +346,52 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
               ),
             )
         ],
+      ),
+    );
+  }
+}
+
+class SaveShareDownloadButton extends StatelessWidget {
+  final VoidCallback? ontab;
+  final IconData icon;
+  final String title;
+
+  const SaveShareDownloadButton({
+    super.key,
+    this.ontab,
+    required this.icon,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: ontab,
+      child: Container(
+        height: 35,
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.blueGrey.shade50.withOpacity(0.3),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: Colors.blueGrey,
+              size: 16,
+            ),
+            SizedBox(width: 4),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.blueGrey,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

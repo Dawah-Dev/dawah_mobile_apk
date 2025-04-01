@@ -36,7 +36,7 @@ class _MainBottomNavigationScreenState
   @override
   Widget build(BuildContext context) {
 
-    playerMaxHeight = MediaQuery.of(context).copyWith().size.height-20;
+    playerMaxHeight = MediaQuery.of(context).copyWith().size.height;
 
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0,forceMaterialTransparency: true,),
