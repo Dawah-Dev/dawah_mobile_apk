@@ -1,5 +1,6 @@
 import 'package:dawah_mobile_application/feature/common/ui/screens/main_bottom_navigation_screen.dart';
 import 'package:dawah_mobile_application/app/app_logo.dart';
+import 'package:dawah_mobile_application/feature/common/ui/widgets/channel_subscribe_Item.dart';
 import 'package:flutter/material.dart';
 
 class FirstTimeChannelConnectionScreen extends StatefulWidget {
@@ -69,20 +70,7 @@ class _FirstTimeChannelConnectionScreenState
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(),
-                    title: Text('Channel ${index + 1}'),
-                    subtitle: Text('Channel description'),
-                    trailing: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent, elevation: 0),
-                      child: Text(
-                        'Subscribe',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  );
+                  return ChannelSubscribeItem(index: index);
                 },
               ),
               SizedBox(height: 16),
