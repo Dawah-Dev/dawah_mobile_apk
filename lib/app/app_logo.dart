@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../app/assets_path.dart' show AssetsPath;
+import 'assets_path.dart' show AssetsPath;
 
 class AppLogo extends StatelessWidget {
   final double? size;

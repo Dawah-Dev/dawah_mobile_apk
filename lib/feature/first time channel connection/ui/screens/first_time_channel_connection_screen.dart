@@ -1,5 +1,5 @@
 import 'package:dawah_mobile_application/feature/common/ui/screens/main_bottom_navigation_screen.dart';
-import 'package:dawah_mobile_application/feature/common/ui/widgets/app_logo.dart';
+import 'package:dawah_mobile_application/app/app_logo.dart';
 import 'package:flutter/material.dart';
 
 class FirstTimeChannelConnectionScreen extends StatefulWidget {

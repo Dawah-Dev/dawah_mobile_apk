@@ -2,7 +2,7 @@ import 'package:dawah_mobile_application/feature/home/ui/screens/home_screen.dar
 import 'package:dawah_mobile_application/feature/search/ui/screens/search_screen.dart';
 import 'package:dawah_mobile_application/third_party_library/mini_player/miniplayer.dart';
 import 'package:dawah_mobile_application/third_party_library/mini_player/src/utils.dart' show percentageFromValueInRange;
-import 'package:dawah_mobile_application/video_play_screen.dart';
+import 'package:dawah_mobile_application/feature/video%20player/ui/screens/video_play_screen.dart';
 import 'package:flutter/material.dart';
 
 

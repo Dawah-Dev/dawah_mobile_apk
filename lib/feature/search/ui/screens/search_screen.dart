@@ -1,3 +1,4 @@
+import 'package:dawah_mobile_application/feature/common/ui/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -89,48 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           child: ListView.builder(
             itemBuilder: (context, index) {
-              return SizedBox(
-                height: 88,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: AspectRatio(
-                          aspectRatio: 16/9,
-                          child: Image.network(
-                            'https://i.ytimg.com/vi/Eysh8W9Veow/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLD2xID4HvycaI2tRoYiCHfUrzJfkQ',
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('মদীনার মুসাফির ┇Cover by আহমাদ ফাইয়াজ ┇Heart Touching┇ Ummah Studio',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            Row(
-                              children: [
-                                Flexible(child: Text('Ummah Network',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 12,color: Colors.grey),)),
-                                Text(' • 24 Mar 2025',style: TextStyle(fontSize: 12,color: Colors.grey),)
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
+              return VideoCard();
             },
           ),
         ),
