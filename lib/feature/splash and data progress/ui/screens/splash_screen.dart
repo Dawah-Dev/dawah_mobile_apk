@@ -1,4 +1,4 @@
-import 'package:dawah_mobile_application/feature/common/ui/widgets/app_logo.dart';
+import 'package:dawah_mobile_application/app/app_logo.dart';
 import 'package:dawah_mobile_application/feature/first%20time%20channel%20connection/ui/screens/first_time_channel_connection_screen.dart';
 import 'package:flutter/material.dart';
 
