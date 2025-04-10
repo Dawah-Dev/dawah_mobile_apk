@@ -6,6 +6,10 @@ class VideoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+    print(videoinfo?['uploading']);
+
     return GestureDetector(
       onTap: () {},
       child: Column(
@@ -44,7 +48,7 @@ class VideoCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 18,
-                backgroundImage: NetworkImage('https://yt3.ggpht.com/ytc/AIdro_lbVZ9wgnA-LZ4HoESZeMUTU-IqvnlRGaaLWtRyaLCm4Ns=s48-c-k-c0x00ffffff-no-rj'),
+                backgroundImage: NetworkImage(videoinfo?['clogo']),
               ),
               SizedBox(width: 12),
               Expanded(
@@ -64,7 +68,7 @@ class VideoCard extends StatelessWidget {
                     ),
                     SizedBox(height: 2),
                     Text(
-                      'Ummah network • 24 Mar 2025',
+                      '${videoinfo?['author']} • ${videoinfo?['uploading']}',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey,

@@ -46,7 +46,7 @@ class _MainBottomNavigationScreenState
       body: SafeArea(
         child: Stack(
           children: [
-            _screens[_currentIndex],
+            IndexedStack(index: _currentIndex, children: _screens),
 
             if(_videoPlayerIsVisible)
             Miniplayer(
