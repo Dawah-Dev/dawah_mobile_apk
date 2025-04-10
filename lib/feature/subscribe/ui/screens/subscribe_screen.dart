@@ -1,6 +1,9 @@
 import 'package:dawah_mobile_application/app/app_logo.dart';
+import 'package:dawah_mobile_application/feature/common/data/db/database_helper.dart';
+import 'package:dawah_mobile_application/feature/common/data/model/video_info_model.dart';
 import 'package:dawah_mobile_application/feature/common/ui/widgets/channel_subscribe_Item.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class SubscribeScreen extends StatefulWidget {
   const SubscribeScreen({super.key});
@@ -20,7 +23,8 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+            },
             icon: Icon(
               Icons.notifications_none,
               color: Colors.blueGrey,
@@ -29,8 +33,10 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
         ],
       ),
       body: ListView.builder(itemBuilder: (context, index) {
-        return ChannelSubscribeItem(index: index);
+        // return ChannelSubscribeItem(index: index);
       },),
     );
   }
+
+
 }

@@ -23,6 +23,7 @@ class _MainBottomNavigationScreenState
   int _currentIndex = 0;
   double playerMinHeight = 60;
   double playerMaxHeight = 370;
+  bool _videoPlayerIsVisible = false;
 
   final MiniplayerController _miniplayerController = MiniplayerController();
   final ValueNotifier<double> playerExpandProgress = ValueNotifier<double>(60);
@@ -45,7 +46,9 @@ class _MainBottomNavigationScreenState
       body: SafeArea(
         child: Stack(
           children: [
-            _screens[_currentIndex],
+            IndexedStack(index: _currentIndex, children: _screens),
+
+            if(_videoPlayerIsVisible)
             Miniplayer(
               minHeight: 60,
               controller: _miniplayerController,
@@ -55,9 +58,6 @@ class _MainBottomNavigationScreenState
                 return VideoPlayScreen(height: height,
                   miniplayerController: _miniplayerController,
                 );
-                //   Center(
-                //   child: Text('$height, $percentage'),
-                // );
               },
             ),
           ],

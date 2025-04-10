@@ -1,4 +1,5 @@
 import 'package:dawah_mobile_application/app/app_logo.dart';
+import 'package:dawah_mobile_application/feature/common/data/db/database_helper.dart';
 import 'package:dawah_mobile_application/feature/common/ui/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _inProgress = false;
+  List<Map<String,dynamic>> videoList=[];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fatchVideoInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,22 +39,46 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Divider(
-            color: Colors.blueGrey.shade50,
-            height: 0.5,
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16),
-              itemBuilder: (context, index) {
-                return VideoCard();
-              },
+      body: RefreshIndicator(
+        color: Colors.blueAccent,
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 1));
+          fatchVideoInfo();
+        },
+        child: Column(
+          children: [
+            Divider(
+              color: Colors.blueGrey.shade50,
+              height: 0.5,
             ),
-          )
-        ],
+            _inProgress == true
+                ? CircularProgressIndicator()
+                : Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(16),
+                      itemCount: videoList.length,
+                      itemBuilder: (context, index) {
+                        return VideoCard(
+                          videoinfo: videoList[index],
+                        );
+                      },
+                    ),
+                  )
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> fatchVideoInfo() async {
+    _inProgress = true;
+    setState(() {});
+
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    videoList = await databaseHelper.getInterleavedVideos();
+
+    _inProgress = false;
+    setState(() {});
+
   }
 }

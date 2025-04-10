@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dawah_mobile_application/feature/common/data/db/database_helper.dart';
 import 'package:dawah_mobile_application/feature/common/ui/widgets/video_card.dart';
 import 'package:dawah_mobile_application/third_party_library/mini_player/miniplayer.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,9 +32,17 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
   late Timer _hideControlsTimer;
   bool _isFullScreen = false;
 
+  List<Map<String,dynamic>> videoList=[];
+
+  Future<void> fatchVideoInfo() async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    videoList = await databaseHelper.getRecommendVideos();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    fatchVideoInfo();
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: videoUrl,
@@ -118,28 +127,32 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          Column(
             children: [
-              GestureDetector(
-                onTap: _onTapPlayer,
-                child: SizedBox(
-                  height: widget.height > displayWidth * (9 / 16)
-                      ? _isFullScreen ? double.infinity : displayWidth * (9 / 16)
-                      : widget.height - 4,
-                  width: widget.height > 61
-                      ? displayWidth
-                      : (widget.height * (16 / 9)) - 6,
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: buildYoutubePlayerandControllerButton(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: _onTapPlayer,
+                    child: SizedBox(
+                      height: widget.height > displayWidth * (9 / 16)
+                          ? _isFullScreen ? double.infinity : displayWidth * (9 / 16)
+                          : widget.height - 4,
+                      width: widget.height > 61
+                          ? displayWidth
+                          : (widget.height * (16 / 9)) - 6,
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: buildYoutubePlayerandControllerButton(),
+                      ),
+                    ),
                   ),
-                ),
+                  if (widget.height < 61) buildInfoAndButtonForMiniSize()
+                ],
               ),
-              if (widget.height < 61) buildInfoAndButtonForMiniSize()
+              if (widget.height < 61) buildVideoIndicatorForMiniLayout(),
             ],
           ),
-          if (widget.height < 61) buildVideoIndicatorForMiniLayout(),
           if (widget.height > displayWidth * (9 / 16))
             Expanded(
               child: GestureDetector(
@@ -267,10 +280,10 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: 10,
+      itemCount: videoList.length,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       itemBuilder: (context, index) {
-        return VideoCard();
+        return VideoCard(videoinfo: videoList[index],);
       },
     );
   }
@@ -591,4 +604,6 @@ class CustomVideoSlider extends StatelessWidget {
       ),
     );
   }
+
+
 }

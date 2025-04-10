@@ -1,7 +1,8 @@
-import 'package:dawah_mobile_application/feature/common/ui/screens/main_bottom_navigation_screen.dart';
 import 'package:dawah_mobile_application/app/app_logo.dart';
+import 'package:dawah_mobile_application/feature/common/ui/screens/main_bottom_navigation_screen.dart';
 import 'package:dawah_mobile_application/feature/common/ui/widgets/channel_subscribe_Item.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class FirstTimeChannelConnectionScreen extends StatefulWidget {
   const FirstTimeChannelConnectionScreen({super.key});
@@ -15,6 +16,58 @@ class FirstTimeChannelConnectionScreen extends StatefulWidget {
 
 class _FirstTimeChannelConnectionScreenState
     extends State<FirstTimeChannelConnectionScreen> {
+  bool inprogress = false;
+  int subscribeCount = 0;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fatchChannelInfo();
+  }
+
+  final List<Map<String, dynamic>> _channelInfo = [];
+
+  Future<void> fatchChannelInfo() async {
+    setState(() {
+      inprogress = true;
+    });
+
+    List<String> channelid = [
+      'UCuxth2BimHUigZ344JhcFPw',
+      'UCJBFlQxBr4skX7Er5-hSNnA',
+      'UCdC58Fno7uiux5-fDWb3F4Q',
+      'UCOuLIzE_eeEOO1ybC_J8JuQ',
+      'UCQ92zH1kt6CHYOhIpg8-eEw',
+      'UC4XAyY0HcNirlm78BlGLiLA',
+      'UC7kCl17f3Mqx2YUhrvRaUug',
+      'UCVhUNnaQ0S7ywSApsc1Hx0Q',
+      'UCAPbeZYTsKaRd0Xe5gs2o6A',
+      'UCX-i9fECoJPF42TvOwwoiTw'
+    ];
+
+
+
+    YoutubeExplode youtubeExplode = YoutubeExplode();
+
+    try {
+      for (int i = 0; i < channelid.length + 1; i++) {
+        var channel = await youtubeExplode.channels.get(channelid[i]);
+        _channelInfo.add({
+          'name': channel.title,
+          'logo': channel.logoUrl,
+          'sub': channel.subscribersCount,
+          'cid':channelid[i],
+        });
+        inprogress = false;
+        setState(() {});
+      }
+    } catch (e) {
+      print('Error fetching channel info: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +82,7 @@ class _FirstTimeChannelConnectionScreenState
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 MainBottomNavigationScreen.name,
-                    (route) => false,
+                (route) => false,
               );
             },
             style: OutlinedButton.styleFrom(
@@ -40,7 +93,7 @@ class _FirstTimeChannelConnectionScreenState
               ),
             ),
             child: Text(
-              'Next 4/5',
+              'Next $subscribeCount/5',
               style: TextStyle(
                 color: Colors.blueAccent,
               ),
@@ -66,24 +119,18 @@ class _FirstTimeChannelConnectionScreenState
               ),
               SizedBox(height: 8),
               ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ChannelSubscribeItem(index: index);
-                },
-              ),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: _channelInfo.length,
+                      itemBuilder: (context, index) {
+                        return ChannelSubscribeItem(
+                          channelInfo: _channelInfo[index],
+                        );
+                      },
+                    ),
               SizedBox(height: 16),
-              GestureDetector(
-                onTap: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('See more channel'),
-                    Icon(Icons.arrow_drop_down),
-                  ],
-                ),
-              ),
+              if(inprogress == true)
+              CircularProgressIndicator(color: Colors.blueAccent,),
               SizedBox(height: 50)
             ],
           ),
